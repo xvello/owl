@@ -3,6 +3,7 @@ package main
 import (
 	"strings"
 
+	"github.com/stretchr/testify/require"
 	"github.com/xvello/owl"
 )
 
@@ -23,6 +24,7 @@ type lowerCmd struct {
 
 func (c *lowerCmd) Run(o owl.Owl) {
 	out := strings.ToLower(c.Text)
+	require.NotEqual(o, "viper", out, "snakes not allowed here")
 	if o.(*rootCommand).Reverse {
 		out = reverse(out)
 	}

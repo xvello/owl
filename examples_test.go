@@ -90,6 +90,11 @@ func TestExamples(t *testing.T) {
 			args:        []string{"upper", "--reverse", "CoCo"},
 			expectedOut: "OCOC",
 		},
+		"strings_lower_viper": {
+			example:     "strings",
+			args:        []string{"lower", "VIPER"},
+			expectedErr: "snakes not allowed here",
+		},
 	}
 	for name, tc := range tests {
 		require.NoError(t, os.Setenv("LANG", "C"))
