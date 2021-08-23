@@ -1,0 +1,11 @@
+# This file contains configuration for golangci-lint
+
+run:
+  modules-download-mode: readonly
+
+linters:
+  enable:
+    - misspell
+    - unconvert
+    - nolintlint
+    - goimports
