@@ -5,6 +5,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"os/exec"
 
 	"github.com/alexflint/go-arg"
 	"github.com/stretchr/testify/require"
@@ -14,6 +15,7 @@ import (
 // Commands can cast it to your root type to access global options.
 type Owl interface {
 	Errorf(format string, args ...interface{})
+	ExecCommand(name string, arg ...string) *exec.Cmd
 	FailNow()
 	IsVerbose() bool
 	Printf(format string, a ...interface{})
