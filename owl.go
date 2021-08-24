@@ -1,4 +1,3 @@
-//go:generate mockery --disable-version-string --name Owl --case underscore
 package owl
 
 import (
@@ -10,6 +9,8 @@ import (
 	"github.com/alexflint/go-arg"
 	"github.com/stretchr/testify/require"
 )
+
+//go:generate mockery --disable-version-string --name Owl --case underscore
 
 // Owl provides helpers for your commands, see Base for documentation.
 // Commands can cast it to your root type to access global options.

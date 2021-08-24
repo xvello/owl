@@ -9,3 +9,4 @@ linters:
     - unconvert
     - nolintlint
     - goimports
+    - revive
