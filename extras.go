@@ -17,7 +17,7 @@ type ShellAliases struct {
 const aliasesPreamble = `#
 # Add the following three lines to your ~/.zshrc or ~/.bashrc file:
 # if command -v %[1]s > /dev/null; then
-#     source <(%[1]s build-bash-aliases)
+#     source <(%[1]s build-shell-aliases)
 # fi
 #
 `
