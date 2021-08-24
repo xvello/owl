@@ -15,7 +15,7 @@ type Extras struct {
 
 const aliasesPreamble = `#
 # Add the following lines to your .bashrc:
-# if type -P %[1]s &>/dev/null; then
+# if command -v %[1]s > /dev/null; then
 #     source <(%[1]s build-bash-aliases)
 # fi
 #
