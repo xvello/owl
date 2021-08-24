@@ -3,6 +3,7 @@ package owl
 import (
 	"errors"
 	"fmt"
+	"os/exec"
 	"regexp"
 	"strings"
 )
@@ -40,4 +41,9 @@ func (o *Base) Printf(format string, a ...interface{}) {
 // Println wraps fnt.Println to a configurable stdout, to enable unit testing
 func (o *Base) Println(a ...interface{}) {
 	_, _ = fmt.Fprintln(o.stdout, a...)
+}
+
+// ExecCommand wraps exec.Command, to enable mocking during unit tests
+func (o *Base) ExecCommand(name string, arg ...string) *exec.Cmd {
+	return exec.Command(name, arg...)
 }

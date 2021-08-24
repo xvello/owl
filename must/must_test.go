@@ -1,51 +1,34 @@
 package must
 
 import (
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
-	"github.com/stretchr/testify/require"
 	"github.com/xvello/owl/mocks"
 )
 
-func TestExec(t *testing.T) {
-	tests := map[string]struct {
-		command     string
-		args        []string
-		expectedOut string
-		expectFail  string
-	}{
-		"echo_nominal": {
-			command:     "echo",
-			args:        []string{"one", "two"},
-			expectedOut: "one two",
-		},
-		"echo_split_command": {
-			command:     "echo a b c",
-			expectedOut: "a b c",
-		},
-		"unknown": {
-			command:    "unknown--command__",
-			expectFail: "executable file not found",
-		},
-		"false": {
-			command:    "false",
-			expectFail: "exit status 1",
-		},
-	}
-	for name, tc := range tests {
-		require.NoError(t, os.Setenv("LANG", "C"))
-		t.Run(name, func(t *testing.T) {
-			mowl := new(mocks.Owl)
-			if tc.expectFail != "" {
-				mowl.ExpectRequireFailure(t, tc.expectFail)
-				assert.Panics(t, func() { Exec(mowl, tc.command, tc.args...) })
-			} else {
-				assert.Equal(t, tc.expectedOut, Exec(mowl, tc.command, tc.args...))
-			}
-			mock.AssertExpectationsForObjects(t, mowl)
-		})
-	}
+func TestExec_Simple(t *testing.T) {
+	mowl := new(mocks.Owl)
+	mowl.OnExecCommand("echo", "one", "two").Run().Once()
+	assert.Equal(t, "one two", Exec(mowl, "echo", "one", "two"))
+}
+
+func TestExec_SplitArgs(t *testing.T) {
+	mowl := new(mocks.Owl)
+	mowl.OnExecCommand("echo", "a", "b", "c").Run().Once()
+	assert.Equal(t, "a b c", Exec(mowl, "echo a b c"))
+}
+
+func TestExec_Err(t *testing.T) {
+	mowl := new(mocks.Owl)
+	mowl.OnExecCommand("false").Run().Once()
+	mowl.ExpectRequireFailure(t, "exit status 1")
+	assert.Panics(t, func() { Exec(mowl, "false") })
+}
+
+func TestExec_ErrFromBash(t *testing.T) {
+	mowl := new(mocks.Owl)
+	mowl.OnExecCommand("true").ExecBash("echo mocked; false").Once()
+	mowl.ExpectRequireFailure(t, "mocked")
+	assert.Panics(t, func() { Exec(mowl, "true") })
 }

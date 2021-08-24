@@ -36,13 +36,13 @@ func TestErrorf(t *testing.T) {
 		"assert_with_message_verbose": {
 			fn:             func(o Owl) { assert.Equal(o, 1, 2, "oops") },
 			verbose:        true,
-			expectedPrefix: " ERROR: Error Trace:\tlogging_test.go:",
+			expectedPrefix: " ERROR: Error Trace:\tio_test.go:",
 			expectedSuffix: "Error:      \tNot equal: \n\t            \texpected: 1\n\t            \tactual  : 2\n\tMessages:   \toops\n",
 		},
 		"assert_no_message": {
 			fn:             func(o Owl) { assert.Equal(o, 1, 2) },
 			verbose:        false,
-			expectedPrefix: " ERROR: Error Trace:\tlogging_test.go:",
+			expectedPrefix: " ERROR: Error Trace:\tio_test.go:",
 			expectedSuffix: "Error:      \tNot equal: \n\t            \texpected: 1\n\t            \tactual  : 2\n",
 		},
 	}
