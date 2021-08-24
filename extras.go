@@ -8,22 +8,23 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// Extras registers additional subcommands that can be helpful
-type Extras struct {
-	Aliases *bashAliasesCmd `arg:"subcommand:build-bash-aliases" help:"generate bash aliases for all subcommands"`
+// ShellAliases registers a build-shell-aliases subcommand that
+// auto-generates shell aliases for all active subcommands.
+type ShellAliases struct {
+	ShellAliases *shellAliasesCmd `arg:"subcommand:build-shell-aliases" help:"generate shell aliases for all subcommands"`
 }
 
 const aliasesPreamble = `#
-# Add the following lines to your .bashrc:
+# Add the following three lines to your ~/.zshrc or ~/.bashrc file:
 # if command -v %[1]s > /dev/null; then
 #     source <(%[1]s build-bash-aliases)
 # fi
 #
 `
 
-type bashAliasesCmd struct{}
+type shellAliasesCmd struct{}
 
-func (c *bashAliasesCmd) Run(o Owl) error {
+func (c *shellAliasesCmd) Run(o Owl) error {
 	binary, err := os.Executable()
 	require.NoError(o, err, "cannot find current binary path")
 	o.Printf(aliasesPreamble, binary)

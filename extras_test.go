@@ -9,14 +9,14 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestBashAliases(t *testing.T) {
+func TestShellAliases(t *testing.T) {
 	executable, _ := os.Executable()
 	expected := fmt.Sprintf(aliasesPreamble+"alias simple='%[1]s simple'\nalias another='%[1]s another'\n", executable)
 	var stdout strings.Builder
 	var stderr strings.Builder
 	c := &struct {
 		Base
-		Extras
+		ShellAliases
 		Simple   *simpleSub   `arg:"subcommand:simple"`
 		Advanced *fallibleSub `arg:"subcommand:another"`
 	}{
@@ -26,7 +26,7 @@ func TestBashAliases(t *testing.T) {
 		},
 	}
 
-	os.Args = []string{"owl", "build-bash-aliases"}
+	os.Args = []string{"owl", "build-shell-aliases"}
 	RunOwl(c)
 	assert.Empty(t, stderr.String())
 	assert.Equal(t, expected, stdout.String())

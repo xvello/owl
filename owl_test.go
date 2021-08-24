@@ -27,7 +27,7 @@ func buildTestCommand() *testCommand {
 
 type testCommand struct {
 	Base
-	Extras
+	ShellAliases
 	Simple   *simpleSub        `arg:"subcommand:simple"`
 	Fallible *fallibleSub      `arg:"subcommand:another"`
 	Bad      *badSub           `arg:"subcommand:bad"`
