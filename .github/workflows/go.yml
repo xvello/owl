@@ -7,25 +7,40 @@ on:
     branches: [ main ]
 
 jobs:
-  tests:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
-    runs-on: ${{ matrix.os }}
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Go
-      uses: actions/setup-go@v2
-      with:
-        go-version: 1.16
-    - name: Test
-      run: go test -race -v ./...
-    - name: Build
-      run: go build -v .
   golangci:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v2
+  tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+        go: [ 1.16, 1.17 ]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: ${{ matrix.go }}
+    - name: Test
+      run: go test -v -race -covermode=atomic -coverprofile=coverage ./...
+    - name: Build
+      run: go build -v .
+    - name: Send coverage
+      uses: shogo82148/actions-goveralls@v1
+      with:
+        path-to-profile: coverage
+        flag-name: go-${{ matrix.go }}-${{ matrix.os }}
+        parallel: true
+  finish:
+    needs: [tests, golangci]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close coverage report
+        uses: shogo82148/actions-goveralls@v1
+        with:
+          parallel-finished: true
