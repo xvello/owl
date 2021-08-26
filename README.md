@@ -8,22 +8,24 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/xvello/owl.svg)](https://pkg.go.dev/github.com/xvello/owl)
 
 Owl is a micro-framework that builds on top of thethe excellent [go-arg](https://github.com/alexflint/go-arg) and
-[testify](https://github.com/stretchr/testify) libraries to allow developers to write their CLI tools in Golang,
-instead of maintaining brittle Bash / Python scripts.
+[testify](https://github.com/stretchr/testify) libraries to allow developers to write their CLI tools in Golang, instead
+of maintaining brittle Bash / Python scripts.
 
 All engineering teams will accumulate an (official or unofficial) collection of scripts to automate dev and ops tasks.
-Eventually, an outage will happen because of bad error handling, or a subtle bug that a static typing system would
-have caught. The goal of this project is to allow teams to maintain "scripts" as a Go project:
+Eventually, an outage will happen because of bad error handling, or a subtle bug that a static typing system would have
+caught. The goal of this project is to allow teams to maintain "scripts" as a Go project:
 
 - borrowing from Busybox, all commands are compiled in a single binary for easy distribution
 - input and current state can be checked with [testify/require](https://pkg.go.dev/github.com/stretchr/testify/require)
-before running commands. No need to google for the bash test syntax anymore!
+  before running commands. No need to google for the bash test syntax anymore!
 - common actions are more concise thanks to helpers in the [must package](https://pkg.go.dev/github.com/xvello/owl/must)
 - commands can be extensively unit-tested, with a [mocked owl](https://pkg.go.dev/github.com/xvello/owl/mocks)
-allowing to intercept and mock calls to external commands
+  allowing to intercept and mock calls to external commands
 - you can leverage all the power of the standard library, and any Go library you already work with
 
-## Minimal example
+## How to use it
+
+### Minimal example
 
 ```go
 // rootCommand holds the list of active commands, and embeds owl.Base for common helpers.
@@ -49,3 +51,10 @@ func main() {
     owl.RunOwl(new(rootCommand))
 }
 ```
+
+### Going further
+
+- Checkout the [examples folder](https://github.com/xvello/owl/tree/main/examples) to explore the available features
+- Read the [go-arg readme](https://github.com/alexflint/go-arg/blob/master/README.md) and
+  [reference documentation](https://pkg.go.dev/github.com/alexflint/go-arg) for available argument types
+- Read the [owl reference documentation](https://pkg.go.dev/github.com/xvello/owl) for available helpers 
