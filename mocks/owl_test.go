@@ -38,5 +38,7 @@ func TestMock(t *testing.T) {
 	assert.True(t, mowl.IsVerbose())
 	mowl.On("Printf", "format", "arg1", "arg2").Return()
 	mowl.Printf("format", "arg1", "arg2")
+	mowl.On("Println", "testing").Return()
+	mowl.Println("testing")
 	mock.AssertExpectationsForObjects(t, mowl)
 }

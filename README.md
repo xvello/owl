@@ -4,6 +4,7 @@
 
 [![CI](https://github.com/xvello/owl/actions/workflows/go.yml/badge.svg)](https://github.com/xvello/owl/actions/workflows/go.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/xvello/owl)](https://goreportcard.com/report/github.com/xvello/owl)
+[![Coverage Status](https://coveralls.io/repos/github/xvello/owl/badge.svg?branch=main)](https://coveralls.io/github/xvello/owl?branch=main)
 [![Go Reference](https://pkg.go.dev/badge/github.com/xvello/owl.svg)](https://pkg.go.dev/github.com/xvello/owl)
 
 Owl is a micro-framework that builds on top of thethe excellent [go-arg](https://github.com/alexflint/go-arg) and
