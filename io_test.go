@@ -2,6 +2,7 @@ package owl
 
 import (
 	"os"
+	"os/exec"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -76,4 +77,9 @@ func TestErrorf(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestExecCommand(t *testing.T) {
+	owl := new(Base)
+	assert.Equal(t, exec.Command("echo", "a", "b"), owl.ExecCommand("echo", "a", "b"))
 }
