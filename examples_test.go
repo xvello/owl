@@ -11,6 +11,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+// TestExamples uses the examples as a poor man's integration test: it checks
+// they compile and return expected output / errors for simple use cases.
 func TestExamples(t *testing.T) {
 	// Create a temporary folder to hold binaries
 	tmpDir, err := os.MkdirTemp("", "example")
@@ -24,9 +26,12 @@ func TestExamples(t *testing.T) {
 	require.NoError(t, err)
 	for _, e := range entries {
 		if e.IsDir() {
-			source := path.Join(pwd, "examples", e.Name())
-			out, err := exec.Command("go", "build", "-o", tmpDir, source).CombinedOutput()
-			require.NoError(t, err, string(out))
+			t.Run("compile_"+e.Name(), func(t *testing.T) {
+				cmd := exec.Command("go", "build", "-o", tmpDir, "./"+e.Name())
+				cmd.Dir = path.Join(pwd, "examples")
+				out, err := cmd.CombinedOutput()
+				require.NoError(t, err, string(out))
+			})
 		}
 	}
 
